@@ -1,0 +1,94 @@
+{
+  "info": {
+    "name": "School Management API",
+    "description": "Complete Postman collection for the School Management System REST API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://schoolmap-m162.onrender.com",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/",
+        "description": "Verify the API is running"
+      }
+    },
+    {
+      "name": "Add School",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/addSchool",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Central Academy\",\n  \"address\": \"Civil Lines, Prayagraj, UP\",\n  \"latitude\": 25.4358,\n  \"longitude\": 81.8463\n}"
+        },
+        "description": "Add a new school to the database"
+      }
+    },
+    {
+      "name": "List Schools (sorted by distance)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/listSchools?latitude=25.4358&longitude=81.8463",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "listSchools"
+          ],
+          "query": [
+            {
+              "key": "latitude",
+              "value": "25.4358"
+            },
+            {
+              "key": "longitude",
+              "value": "81.8463"
+            }
+          ]
+        },
+        "description": "Fetch all schools sorted by distance from the given coordinates using Haversine formula"
+      }
+    },
+    {
+      "name": "Add School - Validation Test",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/addSchool",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"\",\n  \"address\": \"Some address\",\n  \"latitude\": 200,\n  \"longitude\": 81.8463\n}"
+        },
+        "description": "Test validation error responses"
+      }
+    },
+    {
+      "name": "List Schools - Missing Params",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/listSchools",
+        "description": "Test missing query parameters validation"
+      }
+    }
+  ]
+}
